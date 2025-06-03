@@ -79,9 +79,10 @@ async def on_message(message):
             "author": str(message.author),
             "channel": str(message.channel),
             "folder": folder_name,
-            "renamed": filename
+            "renamed": filename,
+            "caption": caption
         }
-  ### send post request to power automate ####
+
         try:
             res = requests.post(WEBHOOK_URL, json=data)
             print(f"[LOG] Sent to Pipedream. Response: {res.status_code}")
@@ -95,7 +96,8 @@ async def on_message(message):
 
     ### Else More than 1 files	###
     else:
-        for i, attachment in enumerate(attachments, start=2):
+        for i, attachment in enumerate(attachments, start=1):
+            indexed_caption = f"{caption}_{i}"
             filename = f"{timestamp}_{caption}_{i}"
             print(f"[LOG] Sending file: {filename}")
 
@@ -105,7 +107,8 @@ async def on_message(message):
                 "author": str(message.author),
                 "channel": str(message.channel),
                 "folder": folder_name,
-                "renamed": filename
+                "renamed": filename,
+                "caption": indexed_caption
             }
 
             try:
