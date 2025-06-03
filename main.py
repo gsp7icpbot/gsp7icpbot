@@ -81,11 +81,11 @@ async def on_message(message):
             "folder": folder_name,
             "renamed": filename
         }
-
+  ### send post request to power automate ####
         try:
             res = requests.post(WEBHOOK_URL, json=data)
             print(f"[LOG] Sent to Pipedream. Response: {res.status_code}")
-            if res.status_code == 200:
+            if res.status_code == 200 or 202:
                 await message.channel.send(f"✅ File `{filename}` was already uploaded")
             else:
                 await message.channel.send(f"❌ Failed to upload `{filename}`")
@@ -95,7 +95,7 @@ async def on_message(message):
 
     ### Else More than 1 files	###
     else:
-        for i, attachment in enumerate(attachments, start=1):
+        for i, attachment in enumerate(attachments, start=2):
             filename = f"{timestamp}_{caption}_{i}"
             print(f"[LOG] Sending file: {filename}")
 
@@ -111,7 +111,7 @@ async def on_message(message):
             try:
                 res = requests.post(WEBHOOK_URL, json=data)
                 print(f"[LOG] Sent to Pipedream. Response: {res.status_code}")
-                if res.status_code == 200:
+                if res.status_code == 200 or 202 :
                     await message.channel.send(f"✅ File `{filename}` was already uploaded")
                 else:
                     await message.channel.send(f"❌ Failed to upload `{filename}`")
