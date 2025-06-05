@@ -109,12 +109,11 @@ async def on_message(message):
         for i, attachment in enumerate(attachments, start=1):
             indexed_caption = f"{caption}_{i}"
             filename = f"{timestamp}_{caption}_{i}"
-            if not attachment.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp')):
-                filename += ".jpg"  # Default to .jpg if no valid extension exists
+            filename += ".jpg"  # Default to .jpg if no valid extension exists
             print(f"[LOG] Sending file: {filename}")
 
             data = {
-                "filename": filename,
+                "filename": attachment.filename,
                 "url": attachment.url,
                 "author": str(message.author),
                 "channel": str(message.channel),
