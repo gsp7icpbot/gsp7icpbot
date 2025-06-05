@@ -63,7 +63,7 @@ async def on_message(message):
 
     print(f"[LOG] {len(message.attachments)} attachment(s) found")
     caption = message.content.strip().replace("/", "_") or "no_caption"
-    timestamp = now.strftime("%Y%m%d%H%M")
+    timestamp = now.strftime("%y%m%d%")
     folder_name = now.strftime("%Y%m%d")
     attachments = message.attachments
 
