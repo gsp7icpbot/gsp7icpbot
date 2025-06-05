@@ -16,6 +16,10 @@ import pytz
 TOKEN = os.environ.get("TOKEN")
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
 
+### Channel to listen ###
+allowed_channels = [1379111305700573335, 1379114811589394472]  # Replace with your channel IDs
+
+
 ### Listen for message in discord ###
 intents = discord.Intents.default()
 intents.message_content = True
@@ -61,9 +65,13 @@ async def on_message(message):
         print("[LOG] Message received without attachment. Skipping.")
         return
 
+    if message.channel.id not in allowed_channels:
+        print("[LOG] Message not in allowed channel. Ignoring.")
+        return  # Ignore messages from other channels
+        
     print(f"[LOG] {len(message.attachments)} attachment(s) found")
     caption = message.content.strip().replace("/", "_") or "no_caption"
-    timestamp = now.strftime("%y%m%d%")
+    timestamp = now.strftime("%y%m%d")
     folder_name = now.strftime("%Y%m%d")
     attachments = message.attachments
 
