@@ -68,7 +68,7 @@ async def on_message(message):
     if message.channel.id not in allowed_channels:
         print("[LOG] Message not in allowed channel. Ignoring.")
         return  # Ignore messages from other channels
-        
+
     print(f"[LOG] {len(message.attachments)} attachment(s) found")
     caption = message.content.strip().replace("/", "_") or "no_caption"
     timestamp = now.strftime("%y%m%d")
@@ -79,6 +79,7 @@ async def on_message(message):
     if len(attachments) == 1:
         attachment = attachments[0]
         filename = f"{timestamp}_{caption}"
+        filename += ".jpg"
         print(f"[LOG] Sending file: {filename}")
 
         data = {
@@ -107,6 +108,7 @@ async def on_message(message):
         for i, attachment in enumerate(attachments, start=1):
             indexed_caption = f"{caption}_{i}"
             filename = f"{timestamp}_{caption}_{i}"
+            filename += ".jpg"
             print(f"[LOG] Sending file: {filename}")
 
             data = {
