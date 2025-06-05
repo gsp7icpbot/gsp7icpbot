@@ -79,8 +79,7 @@ async def on_message(message):
     if len(attachments) == 1:
         attachment = attachments[0]
         filename = f"{timestamp}_{caption}"
-        if not attachment.filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp')):
-            filename += ".jpg"  # Default to .jpg if no valid extension exists
+        filename += ".jpg"  # Default to .jpg if no valid extension exists
 
         print(f"[LOG] Sending file: {filename}")
 
