@@ -85,7 +85,7 @@ async def on_message(message):
         print(f"[LOG] Sending file: {filename}")
 
         data = {
-            "filename": filename,
+            "filename": attachment.filename,
             "url": attachment.url,
             "author": str(message.author),
             "channel": str(message.channel),
