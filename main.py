@@ -51,7 +51,9 @@ async def hourly_notify():
         if channel:
             temp = get_cpu_temp()
             power = get_power_status()
-            await channel.send(f"🟢 Bot heartbeat: online and running!\n🌡️ CPU Temp: {temp}°C\nPower={power}")
+            cpu = get_cpu_usage()
+            ram = get_ram_usage()
+            await channel.send(f"🟢 Bot heartbeat: online and running!\n🌡️ CPU Temp: {temp}°C\n{power}\n🖥️ CPU Usage: {cpu}%\n🧠 RAM Usage: {ram}%")
         await asyncio.sleep(900)  # Wait 1 hour (3600 seconds)
 
 @client.event
