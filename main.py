@@ -79,7 +79,8 @@ async def on_message(message):
     print(f"[LOG] New message from {message.author}: {message.content}")
 
     if message.content.strip() == "!status":
-        await message.channel.send(f"✅ I’m alive as {client.user}\n Please send me a photo to save it.")
+        temp = get_cpu_temp()
+        await message.channel.send(f"✅ I’m alive as {client.user}\n Please send me a photo to save it.\n"f"🌡️ CPU Temp: {temp}°C\n")
         return
 
     if message.author.bot:
