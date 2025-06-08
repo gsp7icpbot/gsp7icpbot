@@ -5,6 +5,7 @@
 
 ######################################################################################################################
 import discord
+from dotenv import load_dotenv
 import os
 import requests
 from flask import Flask
@@ -12,7 +13,8 @@ from threading import Thread
 from datetime import datetime
 import pytz
 
-### for get token and webhook from pipedream ###
+### for get token and webhook from powerautomate ###
+load_dotenv()
 TOKEN = os.environ.get("TOKEN")
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
 
@@ -41,6 +43,17 @@ Thread(target=run).start()
 async def on_ready():
     print(f"✅ Logged in as {client.user}")
 
+### hourly notif  ###
+async def hourly_notify():
+    await client.wait_until_ready()
+    channel = client.get_channel(1379114811589394472)  # Replace with your real channel ID (as an integer)
+    while not client.is_closed():
+        if channel:
+            await channel.send("🟢 Bot heartbeat: online and running!")
+        await asyncio.sleep(3600)  # Wait 1 hour (3600 seconds)
+
+### listen message ####
+
 @client.event
 async def on_message(message):
     print(f"[LOG] New message from {message.author}: {message.content}")
@@ -56,9 +69,9 @@ async def on_message(message):
     # ⏰ Restrict to 08:00–22:00 Thai time
     tz = pytz.timezone("Asia/Bangkok")
     now = datetime.now(tz)
-    if now.hour < 8 or now.hour >= 22:
+    '''if now.hour < 6 or now.hour >= 23.59:
         print("[LOG] Outside active hours. Ignoring message.")
-        return
+        return'''
 
     ### Protect no attachement	###
     if not message.attachments:
