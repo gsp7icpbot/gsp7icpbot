@@ -53,13 +53,20 @@ async def hourly_notify():
             power = get_power_status()
             cpu = get_cpu_usage()
             ram = get_ram_usage()
-            await channel.send(f"🟢 Bot heartbeat: online and running!\n🌡️ CPU Temp: {temp}°C\n{power}\n🖥️ CPU Usage: {cpu}%\n🧠 RAM Usage: {ram}%")
+            await channel.send(f"🟢 Bot heartbeat: online and running!\n"
+                f"🌡️ CPU Temp: {temp}°C\n"
+                f"{power}\n"
+                f"🖥️ CPU Usage: {cpu}%\n"
+                f"🧠 RAM Usage: {ram}%"
+                )
         await asyncio.sleep(900)  # Wait 1 hour (3600 seconds)
 
 @client.event
 async def on_ready():
     print(f"✅ Logged in as {client.user}")
-    client.loop.create_task(hourly_notify())
+    if not hasattr(client, 'heartbeat_task_started'):
+        client.heartbeat_task_started = True
+        asyncio.create_task(hourly_notify())
 
 
 
