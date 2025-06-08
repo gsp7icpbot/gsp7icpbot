@@ -51,6 +51,8 @@ async def hourly_notify():
         if channel:
             await channel.send("🟢 Bot heartbeat: online and running!")
         await asyncio.sleep(3600)  # Wait 1 hour (3600 seconds)
+client.loop.create_task(hourly_notify())
+
 
 ### listen message ####
 
