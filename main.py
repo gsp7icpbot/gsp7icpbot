@@ -36,14 +36,10 @@ def home():
     return "🤖 Discord bot is alive!"
 
 def run():
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8081)
 
 # Run Flask server in background
 Thread(target=run).start()
-
-@client.event
-async def on_ready():
-    print(f"✅ Logged in as {client.user}")
 
 ### hourly notif  ###
 async def hourly_notify():
@@ -53,7 +49,14 @@ async def hourly_notify():
         if channel:
             await channel.send("🟢 Bot heartbeat: online and running!")
         await asyncio.sleep(3600)  # Wait 1 hour (3600 seconds)
-client.loop.create_task(hourly_notify())
+
+@client.event
+async def on_ready():
+    print(f"✅ Logged in as {client.user}")
+    client.loop.create_task(hourly_notify())
+
+
+
 
 
 ### listen message ####
