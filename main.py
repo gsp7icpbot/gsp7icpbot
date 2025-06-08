@@ -13,6 +13,8 @@ from threading import Thread
 from datetime import datetime
 import pytz
 import asyncio
+from system_stats import get_cpu_temp, get_power_status
+
 
 
 ### for get token and webhook from powerautomate ###
@@ -47,8 +49,10 @@ async def hourly_notify():
     channel = client.get_channel(1379114811589394472)  # Replace with your real channel ID (as an integer)
     while not client.is_closed():
         if channel:
-            await channel.send("🟢 Bot heartbeat: online and running!")
-        await asyncio.sleep(3600)  # Wait 1 hour (3600 seconds)
+            temp = get_cpu_temp()
+            power = get_power_status()
+            await channel.send("🟢 Bot heartbeat: online and running!\n🌡️ CPU Temp: {temp}°C\nPower={power}")
+        await asyncio.sleep(900)  # Wait 1 hour (3600 seconds)
 
 @client.event
 async def on_ready():
@@ -80,7 +84,7 @@ async def on_message(message):
         print("[LOG] Outside active hours. Ignoring message.")
         return'''
 
-    ### Protect no attachement	###
+    ### Protect no attachement  ###
     if not message.attachments:
         print("[LOG] Message received without attachment. Skipping.")
         return
@@ -95,7 +99,7 @@ async def on_message(message):
     folder_name = now.strftime("%Y%m%d")
     attachments = message.attachments
 
-    ### If 1 filename	###
+    ### If 1 filename   ###
     if len(attachments) == 1:
         attachment = attachments[0]
         filename = f"{timestamp}_{caption}"
@@ -124,7 +128,7 @@ async def on_message(message):
             print(f"[ERROR] Failed to send to Pipedream: {e}")
             await message.channel.send(f"❌ Upload error: {e}")
 
-    ### Else More than 1 files	###
+    ### Else More than 1 files  ###
     else:
         for i, attachment in enumerate(attachments, start=1):
             indexed_caption = f"{caption}_{i}"
