@@ -1,6 +1,7 @@
 ##system_stats
 
 import subprocess
+import psutil
 
 def get_cpu_temp():
     try:
@@ -17,7 +18,7 @@ def get_power_status():
             hex_val = result.stdout.strip().split('=')[1]
             status = int(hex_val, 16)
             if status == 0:
-                return "✅ Power: Normal"
+                return "⚡ Power: ✅Normal"
             msg = "⚠️ Power Issue Detected: "
             if status & 0x1:
                 msg += "Under-voltage detected. "
@@ -32,3 +33,11 @@ def get_power_status():
             return "Power status: unknown"
     except Exception as e:
         return f"Error: {e}"
+        
+def get_cpu_usage():
+    # Returns CPU usage percent (over all cores)
+    return psutil.cpu_percent(interval=1)
+
+def get_ram_usage():
+    mem = psutil.virtual_memory()
+    return mem.percent  # percentage of RAM used
