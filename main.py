@@ -43,7 +43,7 @@ def run():
 # Run Flask server in background
 Thread(target=run).start()
 
-### hourly notif  ###
+### 1/4 hourly notif  ###
 async def hourly_notify():
     await client.wait_until_ready()
     channel = client.get_channel(1379114811589394472)  # Replace with your real channel ID (as an integer)
