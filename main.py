@@ -13,7 +13,7 @@ from threading import Thread
 from datetime import datetime
 import pytz
 import asyncio
-from system_stats import get_cpu_temp, get_power_status
+from system_stats import get_cpu_temp, get_power_status, get_cpu_usage, get_ram_usage
 
 
 
@@ -71,7 +71,6 @@ async def on_ready():
 
 
 
-
 ### listen message ####
 
 @client.event
@@ -79,8 +78,7 @@ async def on_message(message):
     print(f"[LOG] New message from {message.author}: {message.content}")
 
     if message.content.strip() == "!status":
-        temp = get_cpu_temp()
-        await message.channel.send(f"✅ I’m alive as {client.user}\n Please send me a photo to save it.\n"f"🌡️ CPU Temp: {temp}°C\n")
+        await message.channel.send(f"✅ I’m alive as {client.user}\n Please send me a photo to save it.\n"f"🌡️ CPU Temp: {temp}°C")
         return
 
     if message.author.bot:
